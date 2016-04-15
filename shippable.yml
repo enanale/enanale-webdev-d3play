@@ -23,7 +23,6 @@ env:
 # npm install runs by default, but we need to specify global installs ourselves
 before_install:
  - npm install
- - bower install
 
 # the build scripts
 script:
