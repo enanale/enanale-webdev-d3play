@@ -41,9 +41,16 @@ gulp.task('copy-assets', function() {
 });
 
 gulp.task('stylus', function () {
+  var safe_stylus = stylus().on('error', function (e){
+    console.log(e.plugin, e.name);
+    console.log(e.message);
+    console.log(e.plugin, "aborted");
+    safe_stylus.end();
+  });
+
   gulp.src(APP_DIR+'/styles/*.styl')
     .pipe(order(['style.styl','*.styl']))
-    .pipe(stylus())
+    .pipe(safe_stylus)
     .pipe(concat("style.css"))
     .pipe(cleanCSS())    
     .pipe(gulp.dest(WWW_DIR+'/css'));
@@ -130,6 +137,8 @@ gulp.task('nodemon', function (cb) {
 gulp.task('content-reload', function() {
   browserSync.reload({ stream: false });
 })
+
+gulp.task('build', ['hello','js','lint','stylus','copy-assets','vendorjs','vendorcss',]);
 
 gulp.task('default', ['hello','js','lint','stylus','copy-assets','vendorjs','vendorcss','browsersync'], function() {
   gulp.watch(APP_DIR+'/styles/*.styl', ['stylus', 'content-reload'] );

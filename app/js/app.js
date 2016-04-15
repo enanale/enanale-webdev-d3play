@@ -10,8 +10,8 @@
    */
 
   // A completely frivolous d3 animation for the purpose of learning about force layouts
-  var width = 600,
-      height = 400,
+  var width = 800,
+      height = 600,
       stars = 500,
       frame = 1,  
     // This is the distance from the centre where nodes should placed, it just happens to be 1/6th the width or height... which ever is larger.
@@ -27,14 +27,10 @@
   var force = d3.layout.force()
     .nodes(nodes)
     .size([width, height])
-    .charge(-10) // This controls how the particles interact. Adjust to play god!
-    .gravity(.01)
+    .charge(-30) // This controls how the particles interact. Adjust to play god!
+    .gravity(-0.01)
     .on("tick", tick)
     .start();
-
-  // var svg = d3.select("body").append("svg")
-  //   .attr("width", width)
-  //   .attr("height", height);
 
   var svg = d3.select("body")
    .append("div")
@@ -42,7 +38,7 @@
    .append("svg")
    //responsive SVG needs these 2 attributes and no width and height attr
    .attr("preserveAspectRatio", "xMinYMin meet")
-   .attr("viewBox", "0 0 600 400")
+   .attr("viewBox", "0 0 800 600")
    //class to make it responsive
    .classed("svg-content-responsive", true); 
 
@@ -70,6 +66,14 @@
     .attr("r", 25)
     .style("fill", "#C7DFE8");
 
+  svg.append("rect")
+    .attr("x", 0)
+    .attr("y", 0)
+    .attr("width", width)
+    .attr("height", height)
+    .style("fill", "none")
+    .attr('stroke', 'blue')
+    .attr('stroke-width', 2);
 
   function tick(e) {
 
@@ -117,7 +121,7 @@
 
   function layout_galaxy(data, index, alpha, frame, max_speed) {
     var D2R = Math.PI / 180;
-    var drag=140; // This means the outer edge of a spiral will drag 140 degrees behind the inner
+    var drag=-120; // This means the outer edge of a spiral will drag 140 degrees behind the inner
     var spiral_arms = 10; // How many arms, Also fun to change.
     spiral_arms = 360/spiral_arms; // Get the number of deg between each arm 
     // Here is where most of the layout happens
